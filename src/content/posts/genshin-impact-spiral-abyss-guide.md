@@ -1,6 +1,6 @@
 ---
 title: "Genshin Impact Spiral Abyss Guide — How to 36-Star Every Rotation"
-description: "Struggling to clear Spiral Abyss? Learn team building for both halves, floor-specific strategies, energy management, and the rotation patterns that guarantee 36 stars."
+description: "Struggling with Spiral Abyss? Learn team building for both halves, floor strategies, energy management, and rotations that guarantee 36 stars."
 pubDate: 2026-06-19
 game: "Genshin Impact"
 gameSlug: "genshin-impact"
