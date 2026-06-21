@@ -16,7 +16,7 @@ export const games: Game[] = [
     title: 'Elden Ring',
     description:
       'Master the Lands Between with expert boss strategies, optimal builds, and complete walkthroughs for every region.',
-    coverImage: '/images/games/elden-ring.jpg',
+    coverImage: '/images/games/elden-ring.svg',
     platforms: ['PC', 'PlayStation', 'Xbox'],
     accentColor: '#c7a04b',
     accentGradient: 'from-amber-500 to-yellow-600',
@@ -28,7 +28,7 @@ export const games: Game[] = [
     title: 'Genshin Impact',
     description:
       'Character builds, artifact guides, elemental reaction mechanics, and Spiral Abyss strategies for every update.',
-    coverImage: '/images/games/genshin-impact.jpg',
+    coverImage: '/images/games/genshin-impact.svg',
     platforms: ['PC', 'PlayStation', 'Mobile'],
     accentColor: '#6bb5ff',
     accentGradient: 'from-blue-400 to-cyan-500',
@@ -40,7 +40,7 @@ export const games: Game[] = [
     title: "Baldur's Gate 3",
     description:
       'Comprehensive class builds, companion guides, romance paths, and honour mode strategies for every act.',
-    coverImage: '/images/games/baldurs-gate-3.jpg',
+    coverImage: '/images/games/baldurs-gate-3.svg',
     platforms: ['PC', 'PlayStation', 'Xbox'],
     accentColor: '#c41e3a',
     accentGradient: 'from-red-600 to-red-800',
@@ -52,7 +52,7 @@ export const games: Game[] = [
     title: 'Valorant',
     description:
       'Agent mastery guides, map callouts, lineup spots, weapon stats, and aim training routines to climb the ranks.',
-    coverImage: '/images/games/valorant.jpg',
+    coverImage: '/images/games/valorant.svg',
     platforms: ['PC'],
     accentColor: '#ff4655',
     accentGradient: 'from-red-500 to-rose-600',
@@ -64,7 +64,7 @@ export const games: Game[] = [
     title: 'Black Myth: Wukong',
     description:
       'Boss strategies, spell combos, secret areas, and true ending walkthrough for every chapter.',
-    coverImage: '/images/games/wukong.jpg',
+    coverImage: '/images/games/wukong.svg',
     platforms: ['PC', 'PlayStation'],
     accentColor: '#e8a850',
     accentGradient: 'from-orange-400 to-amber-600',
@@ -76,7 +76,7 @@ export const games: Game[] = [
     title: 'Honkai: Star Rail',
     description:
       'Character tier lists, relic optimization, team compositions, and Simulated Universe strategies.',
-    coverImage: '/images/games/star-rail.jpg',
+    coverImage: '/images/games/star-rail.svg',
     platforms: ['PC', 'Mobile', 'PlayStation'],
     accentColor: '#8b5cf6',
     accentGradient: 'from-purple-500 to-violet-700',
@@ -88,7 +88,7 @@ export const games: Game[] = [
     title: 'Delta Force',
     description:
       'Operator guides, weapon loadouts, map strategies, and tactical tips for every game mode in Delta Force.',
-    coverImage: '/images/games/delta-force.jpg',
+    coverImage: '/images/games/delta-force.svg',
     platforms: ['PC', 'PlayStation', 'Xbox', 'Mobile'],
     accentColor: '#4ade80',
     accentGradient: 'from-green-400 to-emerald-600',
