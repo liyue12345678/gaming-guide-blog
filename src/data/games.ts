@@ -83,6 +83,18 @@ export const games: Game[] = [
     featured: false,
     genre: 'Turn-Based RPG / Gacha',
   },
+  {
+    slug: 'delta-force',
+    title: 'Delta Force',
+    description:
+      'Operator guides, weapon loadouts, map strategies, and tactical tips for every game mode in Delta Force.',
+    coverImage: '/images/games/delta-force.jpg',
+    platforms: ['PC', 'PlayStation', 'Xbox', 'Mobile'],
+    accentColor: '#4ade80',
+    accentGradient: 'from-green-400 to-emerald-600',
+    featured: true,
+    genre: 'Tactical FPS',
+  },
 ];
 
 export function getGame(slug: string): Game | undefined {
