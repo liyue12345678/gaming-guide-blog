@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('posts'))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const featuredPosts = allPosts.filter((p) => p.data.featured).slice(0, 3);
+const recentPosts = allPosts.slice(0, 6);
+
+const description = 'In-depth game guides, boss strategies, build recommendations, and walkthroughs. Built by gamers, for gamers.';
+---
+
+<BaseLayout title="Home" description={description}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-950/30 via-transparent to-transparent pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto px-4 pt-20 pb-12 text-center relative">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+        Master Your
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-gaming-accent to-brand-400">Favorite Games</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-8 leading-relaxed">
+        Detailed boss guides, optimal builds, hidden secrets, and step-by-step walkthroughs.
+        No fluff — just the strategies that work.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/guides"
+          class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-brand-900/30"
+        >
+          Browse All Guides
+        </a>
+        <a
+          href="/rss.xml"
+          class="px-6 py-3 bg-gaming-card border border-gaming-border hover:border-zinc-600 text-gaming-text font-semibold rounded-lg transition-colors"
+        >
+          <span class="flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg>
+            RSS Feed
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Posts -->
+  {
+    featuredPosts.length > 0 && (
+      <section class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+          <span class="text-gaming-accent">✦</span> Featured Guides
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredPosts.map((post) => (
+            <a
+              href={`/posts/${post.slug}`}
+              class="group block bg-gaming-card border border-gaming-border rounded-xl overflow-hidden hover:border-brand-600/50 transition-all hover:shadow-xl hover:shadow-brand-900/10"
+            >
+              {post.data.image && (
+                <div class="aspect-video overflow-hidden">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-5">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-brand-900/40 text-brand-300 border border-brand-700/20">
+                    {post.data.category}
+                  </span>
+                  {post.data.difficulty && (
+                    <span class="text-xs text-gaming-muted">{post.data.difficulty}</span>
+                  )}
+                </div>
+                <h3 class="font-bold text-white group-hover:text-gaming-accent transition-colors mb-2 line-clamp-2">
+                  {post.data.title}
+                </h3>
+                <p class="text-sm text-gaming-muted line-clamp-2">{post.data.description}</p>
+                <p class="text-xs text-zinc-600 mt-3">
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Recent Posts -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span class="text-brand-400">📝</span> Latest Guides
+      </h2>
+      <a href="/guides" class="text-sm text-brand-400 hover:text-brand-300 font-medium transition-colors">
+        View all →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {recentPosts.map((post) => (
+        <a
+          href={`/posts/${post.slug}`}
+          class="group block bg-gaming-card border border-gaming-border rounded-xl p-5 hover:border-zinc-600 transition-all hover:shadow-lg"
+        >
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs px-2 py-0.5 rounded-full bg-gaming-border/50 text-gaming-muted border border-gaming-border">
+              {post.data.game}
+            </span>
+            <span class="text-xs text-zinc-600">{post.data.category}</span>
+          </div>
+          <h3 class="font-semibold text-white group-hover:text-brand-400 transition-colors mb-2 line-clamp-2">
+            {post.data.title}
+          </h3>
+          <p class="text-sm text-gaming-muted line-clamp-2 mb-3">{post.data.description}</p>
+          <time class="text-xs text-zinc-600">
+            {post.data.pubDate.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+            {post.data.readTime && <span> · {post.data.readTime} min read</span>}
+          </time>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+      <span class="text-gaming-accent2">🗂️</span> Browse by Category
+    </h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {
+        ['Boss Guide', 'Build Guide', 'Walkthrough', 'Tips & Tricks', 'Beginners Guide', 'Lore'].map((cat) => (
+          <a
+            href={`/guides?category=${encodeURIComponent(cat)}`}
+            class="flex items-center gap-2 p-4 bg-gaming-card border border-gaming-border rounded-lg hover:border-brand-600/50 transition-all text-sm font-medium text-gaming-text hover:text-white"
+          >
+            {cat === 'Boss Guide' && '⚔️'}
+            {cat === 'Build Guide' && '🛡️'}
+            {cat === 'Walkthrough' && '🗺️'}
+            {cat === 'Tips & Tricks' && '💡'}
+            {cat === 'Beginners Guide' && '📖'}
+            {cat === 'Lore' && '📜'}
+            {cat}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="bg-gradient-to-r from-brand-950/40 via-gaming-card to-brand-950/40 border border-gaming-border rounded-2xl p-8 sm:p-12 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Never Miss a Guide</h2>
+      <p class="text-zinc-400 mb-6 max-w-lg mx-auto">
+        Get the latest game guides, tips, and strategies delivered straight to your inbox.
+        No spam, unsubscribe anytime.
+      </p>
+      <form
+        class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+        action="https://buttondown.email/api/emails/embed-subscribe/your-newsletter-id"
+        method="post"
+        target="popupwindow"
+      >
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="your@email.com"
+          class="flex-1 px-4 py-3 bg-gaming-bg border border-gaming-border rounded-lg text-gaming-text placeholder:text-zinc-600 focus:outline-none focus:border-brand-500 transition-colors"
+        />
+        <button
+          type="submit"
+          class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors whitespace-nowrap"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

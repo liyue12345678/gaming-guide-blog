@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const description = 'About GameGuide Pro — in-depth game guides by passionate gamers.';
+---
+
+<BaseLayout title="About" description={description}>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-6">About GameGuide Pro</h1>
+
+    <div class="prose prose-gaming max-w-none">
+      <p class="text-lg text-zinc-400 leading-relaxed">
+        We create <strong>in-depth, no-nonsense game guides</strong> for players who want
+        to master their favorite games. No clickbait, no filler content — just the
+        strategies, builds, and walkthroughs that actually work.
+      </p>
+
+      <h2>Why We Built This</h2>
+      <p>
+        Too many game guide sites are filled with AI-generated fluff, outdated information,
+        and walls of ads. We built GameGuide Pro to be different — every guide is
+        written by someone who has actually played the game, tested the strategies,
+        and can vouch for what works.
+      </p>
+
+      <h2>What You'll Find Here</h2>
+      <ul>
+        <li><strong>Boss Guides</strong> — Detailed move breakdowns, counter strategies, and optimal builds</li>
+        <li><strong>Walkthroughs</strong> — Step-by-step level completions with all collectibles</li>
+        <li><strong>Build Guides</strong> — Min-maxed character and gear setups</li>
+        <li><strong>Tips & Tricks</strong> — Hidden mechanics, secret areas, and optimization tips</li>
+        <li><strong>Beginner Guides</strong> — Everything you need to know when starting a new game</li>
+      </ul>
+
+      <h2>How We Make Money</h2>
+      <p>
+        GameGuide Pro is free for everyone. We earn revenue through:
+      </p>
+      <ul>
+        <li><strong>Affiliate links</strong> — We may earn a small commission if you buy a game or product through our links, at no extra cost to you</li>
+        <li><strong>Display ads</strong> — Minimal, non-intrusive ads</li>
+      </ul>
+      <p>
+        We never accept payment for reviews or guides — all opinions are our own.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Have a question, suggestion, or want to request a guide?
+        Reach us at <strong>hello@your-game-guide.com</strong>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('posts'))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const categories = [...new Set(allPosts.map((p) => p.data.category))];
+
+const description = 'Browse all game guides, walkthroughs, and strategy articles.';
+---
+
+<BaseLayout title="All Guides" description={description}>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">All Guides</h1>
+    <p class="text-zinc-400 mb-8">{allPosts.length} guides published so far</p>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-3 mb-10">
+      <a
+        href="/guides"
+        class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg text-sm"
+      >
+        All
+      </a>
+      {categories.map((cat) => (
+        <a
+          href={`/guides?category=${encodeURIComponent(cat)}`}
+          class="px-4 py-2 bg-gaming-card border border-gaming-border text-gaming-text hover:border-zinc-600 font-medium rounded-lg text-sm transition-colors"
+        >
+          {cat}
+        </a>
+      ))}
+    </div>
+
+    <!-- Post List -->
+    <div class="space-y-5">
+      {allPosts.map((post) => (
+        <a
+          href={`/posts/${post.slug}`}
+          class="group flex flex-col sm:flex-row gap-5 p-5 bg-gaming-card border border-gaming-border rounded-xl hover:border-zinc-600 transition-all"
+        >
+          {post.data.image && (
+            <div class="sm:w-48 aspect-video sm:aspect-square rounded-lg overflow-hidden flex-shrink-0">
+              <img
+                src={post.data.image}
+                alt={post.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          )}
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs px-2 py-0.5 rounded-full bg-brand-900/40 text-brand-300 border border-brand-700/20">
+                {post.data.category}
+              </span>
+              <span class="text-xs text-gaming-muted">{post.data.game}</span>
+            </div>
+            <h3 class="font-bold text-white group-hover:text-brand-400 transition-colors text-lg mb-2">
+              {post.data.title}
+            </h3>
+            <p class="text-sm text-gaming-muted line-clamp-2 mb-3">{post.data.description}</p>
+            <div class="flex items-center gap-4 text-xs text-zinc-600">
+              <time>
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </time>
+              {post.data.readTime && <span>{post.data.readTime} min read</span>}
+              {post.data.difficulty && (
+                <span class="px-2 py-0.5 rounded bg-gaming-border/50">{post.data.difficulty}</span>
+              )}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

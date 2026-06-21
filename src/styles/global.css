@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0f;
+  color: #e4e4e7;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e1e32;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(0, 255, 136, 0.2);
+  color: #fff;
+}
+
+/* Prose overrides for dark gaming theme */
+.prose-gaming {
+  color: #e4e4e7;
+}
+.prose-gaming h1,
+.prose-gaming h2,
+.prose-gaming h3,
+.prose-gaming h4 {
+  color: #fff;
+  scroll-margin-top: 5rem;
+}
+.prose-gaming h2 {
+  border-bottom: 1px solid #1e1e32;
+  padding-bottom: 0.5rem;
+  margin-top: 2.5rem;
+}
+.prose-gaming a {
+  color: #4ade80;
+  text-decoration: none;
+  font-weight: 500;
+}
+.prose-gaming a:hover {
+  text-decoration: underline;
+}
+.prose-gaming strong {
+  color: #fff;
+}
+.prose-gaming code {
+  background: #1e1e32;
+  color: #00ff88;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+.prose-gaming pre {
+  background: #131320;
+  border: 1px solid #1e1e32;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.prose-gaming blockquote {
+  border-left-color: #00ff88;
+  background: rgba(0, 255, 136, 0.05);
+  color: #d4d4d8;
+  font-style: normal;
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+}
+.prose-gaming ul > li::marker {
+  color: #22c55e;
+}
+.prose-gaming ol > li::marker {
+  color: #22c55e;
+}
+.prose-gaming table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #1e1e32;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.prose-gaming th {
+  background: #131320;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #1e1e32;
+}
+.prose-gaming td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #1e1e32;
+  background: #0a0a0f;
+}
+
+/* Tip / Warning boxes */
+.prose-gaming .tip-box {
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+.prose-gaming .warning-box {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}

@@ -1,0 +1,50 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-gaming-border bg-gaming-bg mt-16">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <!-- Brand -->
+      <div>
+        <a href="/" class="flex items-center gap-2 mb-3">
+          <span class="text-xl">🎮</span>
+          <span class="font-extrabold text-lg text-white">
+            GameGuide<span class="text-gaming-accent">Pro</span>
+          </span>
+        </a>
+        <p class="text-sm text-gaming-muted leading-relaxed">
+          In-depth game guides, tips, and walkthroughs.
+          Built by gamers, for gamers.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Guides</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/guides" class="text-gaming-muted hover:text-gaming-accent transition-colors">All Guides</a></li>
+          <li><a href="/about" class="text-gaming-muted hover:text-gaming-accent transition-colors">About</a></li>
+          <li><a href="/rss.xml" class="text-gaming-muted hover:text-gaming-accent transition-colors">RSS Feed</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Legal</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/privacy" class="text-gaming-muted hover:text-gaming-accent transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-gaming-muted hover:text-gaming-accent transition-colors">Terms of Service</a></li>
+          <li><a href="/affiliate-disclosure" class="text-gaming-muted hover:text-gaming-accent transition-colors">Affiliate Disclosure</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 pt-6 border-t border-gaming-border/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gaming-muted">
+      <p>&copy; {currentYear} GameGuide Pro. All rights reserved.</p>
+      <p>
+        Some links may be affiliate links. We may earn a commission at no extra cost to you.
+      </p>
+    </div>
+  </div>
+</footer>

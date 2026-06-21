@@ -1,0 +1,92 @@
+---
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/guides', label: 'Guides' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<header class="sticky top-0 z-50 bg-gaming-bg/80 backdrop-blur-md border-b border-gaming-border/50">
+  <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2.5 group">
+      <span class="text-2xl">🎮</span>
+      <span class="font-extrabold text-xl text-white tracking-tight">
+        GameGuide<span class="text-gaming-accent">Pro</span>
+      </span>
+    </a>
+
+    <!-- Nav Links -->
+    <div class="hidden sm:flex items-center gap-1">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            Astro.url.pathname === link.href
+              ? 'text-gaming-accent bg-gaming-accent/10'
+              : 'text-zinc-400 hover:text-white hover:bg-gaming-card'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Search placeholder -->
+    <div class="flex items-center gap-3">
+      <button
+        class="hidden sm:flex items-center gap-2 px-4 py-2 bg-gaming-card border border-gaming-border rounded-lg text-sm text-gaming-muted hover:border-zinc-600 transition-colors"
+        aria-label="Search"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span>Search</span>
+        <kbd class="ml-2 px-1.5 py-0.5 text-xs bg-gaming-bg border border-gaming-border rounded text-zinc-500">⌘K</kbd>
+      </button>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="sm:hidden p-2 text-gaming-muted hover:text-white transition-colors"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden sm:hidden border-t border-gaming-border bg-gaming-bg/95 backdrop-blur-md">
+    <div class="px-4 py-3 space-y-1">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            Astro.url.pathname === link.href
+              ? 'text-gaming-accent bg-gaming-accent/10'
+              : 'text-zinc-400 hover:text-white hover:bg-gaming-card'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+    const expanded = menu?.classList.toggle('hidden');
+    openIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+    document.getElementById('mobile-menu-btn')?.setAttribute('aria-expanded', String(!expanded));
+  });
+</script>

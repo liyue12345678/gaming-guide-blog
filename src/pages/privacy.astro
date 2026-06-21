@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Privacy Policy" description="Privacy Policy for GameGuide Pro">
+  <div class="max-w-3xl mx-auto px-4 py-12 prose prose-gaming max-w-none">
+    <h1>Privacy Policy</h1>
+    <p>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+
+    <h2>1. Information We Collect</h2>
+    <p>We collect minimal information to operate this site:</p>
+    <ul>
+      <li><strong>Analytics Data:</strong> We use Google Analytics to understand how visitors use our site. This includes pages visited, time on site, and approximate location (country/city level). No personally identifiable information is collected.</li>
+      <li><strong>Email Address:</strong> If you subscribe to our newsletter, we collect your email address. This is stored by our email provider (Buttondown). You can unsubscribe at any time.</li>
+      <li><strong>Cookies:</strong> Google Analytics sets cookies for tracking. You can disable cookies in your browser settings.</li>
+    </ul>
+
+    <h2>2. How We Use Your Information</h2>
+    <ul>
+      <li>To improve our content and user experience</li>
+      <li>To send newsletter emails (if subscribed)</li>
+      <li>To understand which guides are most popular</li>
+    </ul>
+
+    <h2>3. Third-Party Services</h2>
+    <p>We use these third-party services that may collect data:</p>
+    <ul>
+      <li><strong>Google Analytics</strong> — website analytics</li>
+      <li><strong>Buttondown</strong> — email newsletter delivery</li>
+    </ul>
+
+    <h2>4. Data Retention</h2>
+    <p>Analytics data is retained per Google Analytics' default settings (26 months for user-level data). Email addresses are retained until you unsubscribe.</p>
+
+    <h2>5. Your Rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Unsubscribe from emails at any time</li>
+      <li>Disable cookies in your browser</li>
+      <li>Request deletion of your data (contact us below)</li>
+    </ul>
+
+    <h2>6. Contact</h2>
+    <p>For privacy questions: <strong>privacy@your-game-guide.com</strong></p>
+  </div>
+</BaseLayout>
