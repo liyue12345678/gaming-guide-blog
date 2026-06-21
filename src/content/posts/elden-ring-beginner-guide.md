@@ -3,6 +3,7 @@ title: "Elden Ring Beginner's Guide — 15 Tips to Survive The Lands Between"
 description: "Just started Elden Ring? 15 essential tips to save you hours. Learn about leveling, weapon upgrades, Spirit Ashes, and avoiding common beginner mistakes."
 pubDate: 2026-06-20
 game: "Elden Ring"
+gameSlug: "elden-ring"
 category: "Beginners Guide"
 difficulty: "Beginner"
 tags: ["elden-ring", "beginner", "tips", "getting-started"]

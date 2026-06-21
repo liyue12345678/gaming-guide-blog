@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameCard from '../../components/GameCard.astro';
+import GameGrid from '../../components/GameGrid.astro';
+import PlatformBadges from '../../components/PlatformBadges.astro';
+import { getGame, games } from '../../data/games';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const slugsWithContent = [...new Set(posts.map((p) => p.data.gameSlug))];
+  // Also include all registered games even if they have no posts yet
+  const allSlugs = [...new Set([...games.map((g) => g.slug), ...slugsWithContent])];
+  return allSlugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const game = getGame(slug);
+
+if (!game) {
+  return Astro.redirect('/404');
+}
+
+const allPosts = await getCollection('posts');
+const gamePosts = allPosts
+  .filter((p) => p.data.gameSlug === slug)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Group posts by category for stats
+const categoryCounts = new Map<string, number>();
+gamePosts.forEach((p) => {
+  const cat = p.data.category;
+  categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
+});
+
+// Other featured games for bottom section
+const otherGames = games
+  .filter((g) => g.slug !== slug && g.featured)
+  .slice(0, 4);
+
+// Count guides per other game
+const guideCountMap = new Map<string, number>();
+allPosts.forEach((p) => {
+  const s = p.data.gameSlug;
+  guideCountMap.set(s, (guideCountMap.get(s) || 0) + 1);
+});
+
+const pageDescription = game.description;
+---
+
+<BaseLayout title={game.title} description={game.description}>
+  <!-- Hero Banner -->
+  <section class="relative overflow-hidden">
+    <!-- Background -->
+    <div class="absolute inset-0">
+      <div class={`absolute inset-0 bg-gradient-to-br ${game.accentGradient} opacity-10`}></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-gaming-bg/50 via-gaming-bg/80 to-gaming-bg"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 py-16 sm:py-20 relative">
+      <div class="flex flex-col sm:flex-row gap-8 items-start">
+        <!-- Game Cover (desktop only) -->
+        <div class="hidden sm:block w-40 flex-shrink-0">
+          <div class="aspect-[3/4] rounded-xl overflow-hidden border-2 border-gaming-border shadow-2xl">
+            <img
+              src={game.coverImage}
+              alt={game.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="flex-1">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3">
+            {game.title}
+          </h1>
+          <p class="text-lg text-zinc-300 mb-4 max-w-2xl leading-relaxed">
+            {game.description}
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            <PlatformBadges platforms={game.platforms} size="md" />
+            <span class="text-gaming-muted text-sm">{game.genre}</span>
+          </div>
+
+          <!-- Stats Bar -->
+          <div class="flex flex-wrap gap-3">
+            <div class="px-4 py-2 bg-gaming-card rounded-lg border border-gaming-border">
+              <span class="text-2xl font-bold text-white">{gamePosts.length}</span>
+              <span class="text-sm text-gaming-muted ml-1">guides</span>
+            </div>
+            {[...categoryCounts.entries()].slice(0, 4).map(([cat, count]) => (
+              <div class="px-4 py-2 bg-gaming-card rounded-lg border border-gaming-border">
+                <span class="text-lg font-bold text-white">{count}</span>
+                <span class="text-xs text-gaming-muted ml-1">{cat}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guides List -->
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    {
+      gamePosts.length > 0 ? (
+        <>
+          <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+            <span class="text-brand-400">📝</span> {game.title} Guides
+          </h2>
+          <div class="space-y-4">
+            {gamePosts.map((post) => (
+              <a
+                href={`/posts/${post.slug}`}
+                class="group flex flex-col sm:flex-row gap-5 p-5 bg-gaming-card border border-gaming-border rounded-xl hover:border-zinc-600 transition-all"
+              >
+                {post.data.image && (
+                  <div class="sm:w-44 aspect-video rounded-lg overflow-hidden flex-shrink-0">
+                    <img
+                      src={post.data.image}
+                      alt={post.data.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-brand-900/40 text-brand-300 border border-brand-700/20">
+                      {post.data.category}
+                    </span>
+                    {post.data.difficulty && (
+                      <span class="text-xs text-gaming-muted">{post.data.difficulty}</span>
+                    )}
+                  </div>
+                  <h3 class="font-bold text-white group-hover:text-brand-400 transition-colors text-lg mb-2">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-sm text-gaming-muted line-clamp-2 mb-3">{post.data.description}</p>
+                  <div class="flex items-center gap-4 text-xs text-zinc-600">
+                    <time>
+                      {post.data.pubDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </time>
+                    {post.data.readTime && <span>{post.data.readTime} min read</span>}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-5xl mb-4">📝</p>
+          <h2 class="text-xl font-bold text-white mb-2">Guides Coming Soon</h2>
+          <p class="text-gaming-muted max-w-md mx-auto">
+            We're working on {game.title} guides. Check back soon — or check out our other games below!
+          </p>
+        </div>
+      )
+    }
+  </section>
+
+  <!-- Other Games -->
+  {
+    otherGames.length > 0 && (
+      <section class="max-w-5xl mx-auto px-4 py-12 border-t border-gaming-border">
+        <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+          <span class="text-gaming-accent2">🎮</span> Explore More Games
+        </h2>
+        <GameGrid>
+          {otherGames.map((g) => (
+            <GameCard game={g} guideCount={guideCountMap.get(g.slug) || 0} />
+          ))}
+        </GameGrid>
+        <div class="text-center mt-8">
+          <a
+            href="/games"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-gaming-card border border-gaming-border hover:border-zinc-600 text-gaming-text font-semibold rounded-lg transition-colors"
+          >
+            View All Games →
+          </a>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

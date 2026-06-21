@@ -1,14 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import GameCard from '../components/GameCard.astro';
+import GameGrid from '../components/GameGrid.astro';
+import { getFeaturedGames } from '../data/games';
 import { getCollection } from 'astro:content';
 
-const allPosts = (await getCollection('posts'))
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 
 const featuredPosts = allPosts.filter((p) => p.data.featured).slice(0, 3);
 const recentPosts = allPosts.slice(0, 6);
 
-const description = 'In-depth game guides, boss strategies, build recommendations, and walkthroughs. Built by gamers, for gamers.';
+// Count guides per game for the GameGrid
+const guideCountMap = new Map<string, number>();
+allPosts.forEach((p) => {
+  const s = p.data.gameSlug;
+  guideCountMap.set(s, (guideCountMap.get(s) || 0) + 1);
+});
+
+const featuredGames = getFeaturedGames();
+const totalGames = featuredGames.length;
+
+const description =
+  'In-depth game guides for every game — boss strategies, build recommendations, and walkthroughs. No fluff, just the strategies that work.';
 ---
 
 <BaseLayout title="Home" description={description}>
@@ -17,19 +32,27 @@ const description = 'In-depth game guides, boss strategies, build recommendation
     <div class="absolute inset-0 bg-gradient-to-b from-brand-950/30 via-transparent to-transparent pointer-events-none"></div>
     <div class="max-w-4xl mx-auto px-4 pt-20 pb-12 text-center relative">
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-        Master Your
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-gaming-accent to-brand-400">Favorite Games</span>
+        Guides for
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-gaming-accent to-brand-400">
+          Every Game
+        </span>
       </h1>
       <p class="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-8 leading-relaxed">
-        Detailed boss guides, optimal builds, hidden secrets, and step-by-step walkthroughs.
-        No fluff — just the strategies that work.
+        Every boss. Every build. Every secret. Expert guides across {totalGames}+ games —
+        from AAA blockbusters to indie gems.
       </p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href="/guides"
+          href="/games"
           class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-brand-900/30"
         >
-          Browse All Guides
+          Browse by Game
+        </a>
+        <a
+          href="/guides"
+          class="px-6 py-3 bg-gaming-card border border-gaming-border hover:border-zinc-600 text-gaming-text font-semibold rounded-lg transition-colors"
+        >
+          All Guides →
         </a>
         <a
           href="/rss.xml"
@@ -37,17 +60,34 @@ const description = 'In-depth game guides, boss strategies, build recommendation
         >
           <span class="flex items-center justify-center gap-2">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg>
-            RSS Feed
+            RSS
           </span>
         </a>
       </div>
     </div>
   </section>
 
+  <!-- Featured Games -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span class="text-gaming-accent">🎮</span> Games We Cover
+      </h2>
+      <a href="/games" class="text-sm text-brand-400 hover:text-brand-300 font-medium transition-colors">
+        All games →
+      </a>
+    </div>
+    <GameGrid>
+      {featuredGames.map((game) => (
+        <GameCard game={game} guideCount={guideCountMap.get(game.slug) || 0} />
+      ))}
+    </GameGrid>
+  </section>
+
   <!-- Featured Posts -->
   {
     featuredPosts.length > 0 && (
-      <section class="max-w-6xl mx-auto px-4 py-12">
+      <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gaming-border/50">
         <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
           <span class="text-gaming-accent">✦</span> Featured Guides
         </h2>
@@ -69,6 +109,14 @@ const description = 'In-depth game guides, boss strategies, build recommendation
               )}
               <div class="p-5">
                 <div class="flex items-center gap-2 mb-2">
+                  <!-- Game badge links to game page -->
+                  <a
+                    href={`/games/${post.data.gameSlug}`}
+                    class="text-xs px-2 py-0.5 rounded-full bg-gaming-border/50 text-gaming-muted border border-gaming-border hover:text-white hover:border-zinc-500 transition-colors"
+                    onclick="event.stopPropagation()"
+                  >
+                    {post.data.game}
+                  </a>
                   <span class="text-xs px-2 py-0.5 rounded-full bg-brand-900/40 text-brand-300 border border-brand-700/20">
                     {post.data.category}
                   </span>
@@ -96,7 +144,7 @@ const description = 'In-depth game guides, boss strategies, build recommendation
   }
 
   <!-- Recent Posts -->
-  <section class="max-w-6xl mx-auto px-4 py-12">
+  <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gaming-border/50">
     <div class="flex items-center justify-between mb-8">
       <h2 class="text-2xl font-bold text-white flex items-center gap-2">
         <span class="text-brand-400">📝</span> Latest Guides
@@ -112,9 +160,13 @@ const description = 'In-depth game guides, boss strategies, build recommendation
           class="group block bg-gaming-card border border-gaming-border rounded-xl p-5 hover:border-zinc-600 transition-all hover:shadow-lg"
         >
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs px-2 py-0.5 rounded-full bg-gaming-border/50 text-gaming-muted border border-gaming-border">
+            <a
+              href={`/games/${post.data.gameSlug}`}
+              class="text-xs px-2 py-0.5 rounded-full bg-gaming-border/50 text-gaming-muted border border-gaming-border hover:text-white hover:border-zinc-500 transition-colors"
+              onclick="event.stopPropagation()"
+            >
               {post.data.game}
-            </span>
+            </a>
             <span class="text-xs text-zinc-600">{post.data.category}</span>
           </div>
           <h3 class="font-semibold text-white group-hover:text-brand-400 transition-colors mb-2 line-clamp-2">
@@ -131,31 +183,6 @@ const description = 'In-depth game guides, boss strategies, build recommendation
           </time>
         </a>
       ))}
-    </div>
-  </section>
-
-  <!-- Categories -->
-  <section class="max-w-6xl mx-auto px-4 py-12">
-    <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-      <span class="text-gaming-accent2">🗂️</span> Browse by Category
-    </h2>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      {
-        ['Boss Guide', 'Build Guide', 'Walkthrough', 'Tips & Tricks', 'Beginners Guide', 'Lore'].map((cat) => (
-          <a
-            href={`/guides?category=${encodeURIComponent(cat)}`}
-            class="flex items-center gap-2 p-4 bg-gaming-card border border-gaming-border rounded-lg hover:border-brand-600/50 transition-all text-sm font-medium text-gaming-text hover:text-white"
-          >
-            {cat === 'Boss Guide' && '⚔️'}
-            {cat === 'Build Guide' && '🛡️'}
-            {cat === 'Walkthrough' && '🗺️'}
-            {cat === 'Tips & Tricks' && '💡'}
-            {cat === 'Beginners Guide' && '📖'}
-            {cat === 'Lore' && '📜'}
-            {cat}
-          </a>
-        ))
-      }
     </div>
   </section>
 

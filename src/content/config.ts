@@ -8,6 +8,7 @@ const postsCollection = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     game: z.string(),
+    gameSlug: z.string(),
     category: z.enum([
       'Boss Guide',
       'Build Guide',

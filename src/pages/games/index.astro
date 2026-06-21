@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameCard from '../../components/GameCard.astro';
+import GameGrid from '../../components/GameGrid.astro';
+import { games } from '../../data/games';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+
+// Count guides per game
+const guideCountMap = new Map<string, number>();
+posts.forEach((p) => {
+  const slug = p.data.gameSlug;
+  guideCountMap.set(slug, (guideCountMap.get(slug) || 0) + 1);
+});
+
+const totalGuides = posts.length;
+const gamesWithCounts = games
+  .map((g) => ({ game: g, count: guideCountMap.get(g.slug) || 0 }))
+  .sort((a, b) => b.count - a.count || a.game.title.localeCompare(b.game.title));
+
+const description = `Browse game guides for ${games.length}+ games. Find boss strategies, build guides, walkthroughs, and tips across all your favorite titles.`;
+---
+
+<BaseLayout title="Games" description={description}>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">
+        Game Library
+      </h1>
+      <p class="text-zinc-400 text-lg">
+        <span class="text-brand-400 font-semibold">{games.length}</span> games ·
+        <span class="text-brand-400 font-semibold ml-1">{totalGuides}</span> guides published
+      </p>
+    </div>
+
+    <!-- Game Grid -->
+    {
+      gamesWithCounts.length > 0 ? (
+        <GameGrid>
+          {gamesWithCounts.map(({ game, count }) => (
+            <GameCard game={game} guideCount={count} />
+          ))}
+        </GameGrid>
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-6xl mb-4">🎮</p>
+          <h2 class="text-xl font-bold text-white mb-2">No games yet</h2>
+          <p class="text-gaming-muted">Start writing guides and games will appear here.</p>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

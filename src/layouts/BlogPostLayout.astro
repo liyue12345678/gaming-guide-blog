@@ -51,12 +51,13 @@ const jsonLd = JSON.stringify({
             {frontmatter.category}
           </span>
         )}
-        {frontmatter.game && (
-          <span
-            class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gaming-card text-gaming-muted border border-gaming-border"
+        {frontmatter.game && frontmatter.gameSlug && (
+          <a
+            href={`/games/${frontmatter.gameSlug}`}
+            class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gaming-card text-gaming-muted border border-gaming-border hover:text-white hover:border-zinc-500 transition-colors"
           >
             {frontmatter.game}
-          </span>
+          </a>
         )}
         {frontmatter.difficulty && (
           <span

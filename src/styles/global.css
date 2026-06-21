@@ -123,3 +123,20 @@ body {
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
 }
+
+/* Game card hover glow animation */
+@keyframes game-card-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+  }
+}
+
+/* Smooth scroll reveal (optional progressive enhancement) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

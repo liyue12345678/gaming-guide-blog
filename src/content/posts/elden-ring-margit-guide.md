@@ -4,6 +4,7 @@ description: "Struggling with Elden Ring's first major boss? Learn Margit's atta
 pubDate: 2026-06-21
 updatedDate: 2026-06-21
 game: "Elden Ring"
+gameSlug: "elden-ring"
 category: "Boss Guide"
 difficulty: "Intermediate"
 tags: ["elden-ring", "boss-guide", "margit", "early-game"]

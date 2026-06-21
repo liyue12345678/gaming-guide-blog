@@ -1,0 +1,26 @@
+---
+const platformIcons: Record<string, string> = {
+  PC: '🖥️',
+  PlayStation: '🎮',
+  Xbox: '🎯',
+  Mobile: '📱',
+  Switch: '🕹️',
+};
+
+interface Props {
+  platforms: string[];
+  size?: 'sm' | 'md';
+}
+
+const { platforms, size = 'sm' } = Astro.props;
+const sizeClass = size === 'sm' ? 'text-xs px-2 py-0.5 gap-1' : 'text-sm px-3 py-1 gap-1.5';
+---
+
+<div class="flex flex-wrap gap-1.5">
+  {platforms.map((p) => (
+    <span class={`inline-flex items-center rounded-full bg-gaming-border/60 text-gaming-muted border border-gaming-border/50 ${sizeClass}`}>
+      <span aria-hidden="true">{platformIcons[p] || '🎮'}</span>
+      <span>{p}</span>
+    </span>
+  ))}
+</div>

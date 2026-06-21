@@ -1,11 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { games } from '../data/games';
 
-const allPosts = (await getCollection('posts'))
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 
+// Get unique categories and game slugs from actual posts
 const categories = [...new Set(allPosts.map((p) => p.data.category))];
+const gameSlugsWithContent = [...new Set(allPosts.map((p) => p.data.gameSlug))];
+
+// URL query params for filtering (Astro reads from Astro.url at runtime)
+const url = new URL(Astro.request.url);
+const activeCategory = url.searchParams.get('category');
+const activeGameSlug = url.searchParams.get('gameSlug');
+
+// Filter posts
+const filteredPosts = allPosts.filter((p) => {
+  if (activeCategory && p.data.category !== activeCategory) return false;
+  if (activeGameSlug && p.data.gameSlug !== activeGameSlug) return false;
+  return true;
+});
 
 const description = 'Browse all game guides, walkthroughs, and strategy articles.';
 ---
@@ -13,70 +29,138 @@ const description = 'Browse all game guides, walkthroughs, and strategy articles
 <BaseLayout title="All Guides" description={description}>
   <div class="max-w-6xl mx-auto px-4 py-12">
     <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">All Guides</h1>
-    <p class="text-zinc-400 mb-8">{allPosts.length} guides published so far</p>
+    <p class="text-zinc-400 mb-8">
+      {filteredPosts.length} guide{filteredPosts.length !== 1 ? 's' : ''}
+      {activeCategory && ` in "${activeCategory}"`}
+      {activeGameSlug && ` for ${games.find((g) => g.slug === activeGameSlug)?.title || activeGameSlug}`}
+    </p>
 
-    <!-- Filters -->
-    <div class="flex flex-wrap gap-3 mb-10">
-      <a
-        href="/guides"
-        class="px-4 py-2 bg-brand-600 text-white font-medium rounded-lg text-sm"
-      >
-        All
-      </a>
-      {categories.map((cat) => (
+    <!-- Game Filter -->
+    <div class="mb-4">
+      <p class="text-xs text-gaming-muted uppercase tracking-wider mb-2">Filter by Game</p>
+      <div class="flex flex-wrap gap-2">
         <a
-          href={`/guides?category=${encodeURIComponent(cat)}`}
-          class="px-4 py-2 bg-gaming-card border border-gaming-border text-gaming-text hover:border-zinc-600 font-medium rounded-lg text-sm transition-colors"
+          href={activeCategory ? `/guides?category=${encodeURIComponent(activeCategory)}` : '/guides'}
+          class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            !activeGameSlug
+              ? 'bg-brand-600 text-white'
+              : 'bg-gaming-card border border-gaming-border text-gaming-text hover:border-zinc-600'
+          }`}
         >
-          {cat}
+          All Games
         </a>
-      ))}
+        {gameSlugsWithContent.map((slug) => {
+          const game = games.find((g) => g.slug === slug);
+          const gameTitle = game?.title || slug;
+          const href = activeCategory
+            ? `/guides?gameSlug=${slug}&category=${encodeURIComponent(activeCategory)}`
+            : `/guides?gameSlug=${slug}`;
+          return (
+            <a
+              href={href}
+              class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                activeGameSlug === slug
+                  ? 'bg-brand-600 text-white'
+                  : 'bg-gaming-card border border-gaming-border text-gaming-text hover:border-zinc-600'
+              }`}
+            >
+              {gameTitle}
+            </a>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="mb-10">
+      <p class="text-xs text-gaming-muted uppercase tracking-wider mb-2">Filter by Type</p>
+      <div class="flex flex-wrap gap-2">
+        <a
+          href={activeGameSlug ? `/guides?gameSlug=${activeGameSlug}` : '/guides'}
+          class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            !activeCategory
+              ? 'bg-brand-600 text-white'
+              : 'bg-gaming-card border border-gaming-border text-gaming-text hover:border-zinc-600'
+          }`}
+        >
+          All Types
+        </a>
+        {categories.map((cat) => {
+          const href = activeGameSlug
+            ? `/guides?gameSlug=${activeGameSlug}&category=${encodeURIComponent(cat)}`
+            : `/guides?category=${encodeURIComponent(cat)}`;
+          return (
+            <a
+              href={href}
+              class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                activeCategory === cat
+                  ? 'bg-brand-600 text-white'
+                  : 'bg-gaming-card border border-gaming-border text-gaming-text hover:border-zinc-600'
+              }`}
+            >
+              {cat}
+            </a>
+          );
+        })}
+      </div>
     </div>
 
     <!-- Post List -->
-    <div class="space-y-5">
-      {allPosts.map((post) => (
-        <a
-          href={`/posts/${post.slug}`}
-          class="group flex flex-col sm:flex-row gap-5 p-5 bg-gaming-card border border-gaming-border rounded-xl hover:border-zinc-600 transition-all"
-        >
-          {post.data.image && (
-            <div class="sm:w-48 aspect-video sm:aspect-square rounded-lg overflow-hidden flex-shrink-0">
-              <img
-                src={post.data.image}
-                alt={post.data.title}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-              />
+    {filteredPosts.length > 0 ? (
+      <div class="space-y-5">
+        {filteredPosts.map((post) => (
+          <a
+            href={`/posts/${post.slug}`}
+            class="group flex flex-col sm:flex-row gap-5 p-5 bg-gaming-card border border-gaming-border rounded-xl hover:border-zinc-600 transition-all"
+          >
+            {post.data.image && (
+              <div class="sm:w-48 aspect-video sm:aspect-square rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src={post.data.image}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <a
+                  href={`/games/${post.data.gameSlug}`}
+                  class="text-xs px-2 py-0.5 rounded-full bg-gaming-border/50 text-gaming-muted border border-gaming-border hover:text-white hover:border-zinc-500 transition-colors"
+                  onclick="event.stopPropagation()"
+                >
+                  {post.data.game}
+                </a>
+                <span class="text-xs text-zinc-600">{post.data.category}</span>
+              </div>
+              <h3 class="font-bold text-white group-hover:text-brand-400 transition-colors text-lg mb-2">
+                {post.data.title}
+              </h3>
+              <p class="text-sm text-gaming-muted line-clamp-2 mb-3">{post.data.description}</p>
+              <div class="flex items-center gap-4 text-xs text-zinc-600">
+                <time>
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+                {post.data.readTime && <span>{post.data.readTime} min read</span>}
+                {post.data.difficulty && (
+                  <span class="px-2 py-0.5 rounded bg-gaming-border/50">{post.data.difficulty}</span>
+                )}
+              </div>
             </div>
-          )}
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-xs px-2 py-0.5 rounded-full bg-brand-900/40 text-brand-300 border border-brand-700/20">
-                {post.data.category}
-              </span>
-              <span class="text-xs text-gaming-muted">{post.data.game}</span>
-            </div>
-            <h3 class="font-bold text-white group-hover:text-brand-400 transition-colors text-lg mb-2">
-              {post.data.title}
-            </h3>
-            <p class="text-sm text-gaming-muted line-clamp-2 mb-3">{post.data.description}</p>
-            <div class="flex items-center gap-4 text-xs text-zinc-600">
-              <time>
-                {post.data.pubDate.toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })}
-              </time>
-              {post.data.readTime && <span>{post.data.readTime} min read</span>}
-              {post.data.difficulty && (
-                <span class="px-2 py-0.5 rounded bg-gaming-border/50">{post.data.difficulty}</span>
-              )}
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20">
+        <p class="text-5xl mb-4">🔍</p>
+        <h2 class="text-xl font-bold text-white mb-2">No guides found</h2>
+        <p class="text-gaming-muted">Try different filters or <a href="/guides" class="text-brand-400">clear all filters</a>.</p>
+      </div>
+    )}
   </div>
 </BaseLayout>

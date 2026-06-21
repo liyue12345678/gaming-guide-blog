@@ -1,0 +1,77 @@
+---
+import PlatformBadges from './PlatformBadges.astro';
+import type { Game } from '../data/games';
+
+interface Props {
+  game: Game;
+  guideCount: number;
+  variant?: 'default' | 'compact';
+}
+
+const { game, guideCount, variant = 'default' } = Astro.props;
+const isCompact = variant === 'compact';
+---
+
+<a
+  href={`/games/${game.slug}`}
+  class={`group relative block bg-gaming-card border border-gaming-border rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.03] ${
+    isCompact ? 'aspect-[2/1]' : 'aspect-[3/4]'
+  }`}
+  style={`--game-accent: ${game.accentColor}`}
+>
+  <!-- Cover Image or Gradient Placeholder -->
+  <div class="absolute inset-0">
+    {
+      game.coverImage ? (
+        <img
+          src={game.coverImage}
+          alt={game.title}
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
+        />
+      ) : (
+        <div class={`w-full h-full bg-gradient-to-br ${game.accentGradient} opacity-20`}></div>
+      )
+    }
+  </div>
+
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-t from-gaming-bg via-gaming-bg/60 via-40% to-transparent"></div>
+
+  <!-- Hover Glow Border -->
+  <div
+    class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
+    style={`box-shadow: inset 0 0 30px ${game.accentColor}22, 0 0 40px ${game.accentColor}15;`}
+  ></div>
+
+  <!-- Content -->
+  <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+    <!-- Platform Badges -->
+    <div class="mb-2 opacity-80">
+      <PlatformBadges platforms={game.platforms} />
+    </div>
+
+    <!-- Game Title -->
+    <h3 class="text-lg sm:text-xl font-extrabold text-white mb-1 group-hover:text-[var(--game-accent)] transition-colors duration-300">
+      {game.title}
+    </h3>
+
+    <!-- Accent Line -->
+    <div
+      class="h-0.5 w-12 rounded-full mb-2 transition-all duration-300 group-hover:w-20"
+      style={`background: linear-gradient(90deg, ${game.accentColor}, ${game.accentColor}66)`}
+    ></div>
+
+    <!-- Meta -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="text-xs text-gaming-muted">{game.genre}</span>
+      <span class="text-xs text-zinc-600">·</span>
+      <span
+        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
+        style={`background: ${game.accentColor}18; color: ${game.accentColor}; border: 1px solid ${game.accentColor}33`}
+      >
+        {guideCount} {guideCount === 1 ? 'guide' : 'guides'}
+      </span>
+    </div>
+  </div>
+</a>
