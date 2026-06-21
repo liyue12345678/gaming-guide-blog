@@ -7,7 +7,7 @@ gameSlug: "baldurs-gate-3"
 category: "Build Guide"
 difficulty: "Intermediate"
 tags: ["baldurs-gate-3", "build", "bard", "honour-mode"]
-image: "/images/baldurs-gate-3-bard.jpg"
+image: "/images/baldurs-gate-3-bard.svg"
 author: "GameGuide Pro"
 readTime: 10
 featured: true

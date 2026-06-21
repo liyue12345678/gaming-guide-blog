@@ -7,7 +7,7 @@ gameSlug: "valorant"
 category: "Tips & Tricks"
 difficulty: "Intermediate"
 tags: ["valorant", "aim-training", "crosshair", "warmup"]
-image: "/images/valorant-aim-training.jpg"
+image: "/images/valorant-aim-training.svg"
 author: "GameGuide Pro"
 readTime: 9
 featured: false

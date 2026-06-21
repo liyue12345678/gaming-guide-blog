@@ -8,7 +8,7 @@ gameSlug: "elden-ring"
 category: "Boss Guide"
 difficulty: "Intermediate"
 tags: ["elden-ring", "boss-guide", "margit", "early-game"]
-image: "/images/elden-ring-margit.jpg"
+image: "/images/elden-ring-margit.svg"
 author: "GameGuide Pro"
 readTime: 8
 featured: true

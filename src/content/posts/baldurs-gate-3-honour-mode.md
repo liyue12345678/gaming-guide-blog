@@ -7,7 +7,7 @@ gameSlug: "baldurs-gate-3"
 category: "Tips & Tricks"
 difficulty: "Expert"
 tags: ["baldurs-gate-3", "honour-mode", "survival", "tips"]
-image: "/images/baldurs-gate-3-honour.jpg"
+image: "/images/baldurs-gate-3-honour.svg"
 author: "GameGuide Pro"
 readTime: 12
 featured: true

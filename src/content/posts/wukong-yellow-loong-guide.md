@@ -7,7 +7,7 @@ gameSlug: "black-myth-wukong"
 category: "Boss Guide"
 difficulty: "Expert"
 tags: ["black-myth-wukong", "boss-guide", "yellow-loong", "secret-boss"]
-image: "/images/wukong-yellow-loong.jpg"
+image: "/images/wukong-yellow-loong.svg"
 author: "GameGuide Pro"
 readTime: 8
 featured: true

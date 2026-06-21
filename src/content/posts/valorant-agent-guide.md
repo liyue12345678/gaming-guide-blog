@@ -7,7 +7,7 @@ gameSlug: "valorant"
 category: "Tips & Tricks"
 difficulty: "Intermediate"
 tags: ["valorant", "omen", "controller", "smokes", "guide"]
-image: "/images/valorant-omen.jpg"
+image: "/images/valorant-omen.svg"
 author: "GameGuide Pro"
 readTime: 8
 featured: false

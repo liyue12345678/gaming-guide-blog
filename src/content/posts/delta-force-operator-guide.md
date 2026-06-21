@@ -7,7 +7,7 @@ gameSlug: "delta-force"
 category: "Tips & Tricks"
 difficulty: "Intermediate"
 tags: ["delta-force", "operators", "classes", "team-play"]
-image: "/images/delta-force-operators.jpg"
+image: "/images/delta-force-operators.svg"
 author: "GameGuide Pro"
 readTime: 8
 featured: false

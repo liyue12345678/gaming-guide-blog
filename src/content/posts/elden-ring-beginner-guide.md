@@ -7,7 +7,7 @@ gameSlug: "elden-ring"
 category: "Beginners Guide"
 difficulty: "Beginner"
 tags: ["elden-ring", "beginner", "tips", "getting-started"]
-image: "/images/elden-ring-beginner.jpg"
+image: "/images/elden-ring-beginner.svg"
 author: "GameGuide Pro"
 readTime: 10
 featured: true

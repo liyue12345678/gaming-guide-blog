@@ -7,7 +7,7 @@ gameSlug: "delta-force"
 category: "Beginners Guide"
 difficulty: "Beginner"
 tags: ["delta-force", "beginner", "weapons", "loadout", "meta"]
-image: "/images/delta-force-beginner.jpg"
+image: "/images/delta-force-beginner.svg"
 author: "GameGuide Pro"
 readTime: 9
 featured: true

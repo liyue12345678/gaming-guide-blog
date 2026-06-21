@@ -7,7 +7,7 @@ gameSlug: "elden-ring"
 category: "Walkthrough"
 difficulty: "Beginner"
 tags: ["elden-ring", "walkthrough", "weeping-peninsula", "early-game"]
-image: "/images/elden-ring-weeping-peninsula.jpg"
+image: "/images/elden-ring-weeping-peninsula.svg"
 author: "GameGuide Pro"
 readTime: 7
 featured: false

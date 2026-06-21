@@ -7,7 +7,7 @@ gameSlug: "genshin-impact"
 category: "Beginners Guide"
 difficulty: "Beginner"
 tags: ["genshin-impact", "beginner", "tips", "f2p"]
-image: "/images/genshin-impact-beginner.jpg"
+image: "/images/genshin-impact-beginner.svg"
 author: "GameGuide Pro"
 readTime: 9
 featured: true

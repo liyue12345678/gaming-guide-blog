@@ -7,7 +7,7 @@ gameSlug: "black-myth-wukong"
 category: "Boss Guide"
 difficulty: "Expert"
 tags: ["black-myth-wukong", "erlang", "secret-boss", "true-ending"]
-image: "/images/wukong-erlang.jpg"
+image: "/images/wukong-erlang.svg"
 author: "GameGuide Pro"
 readTime: 9
 featured: true

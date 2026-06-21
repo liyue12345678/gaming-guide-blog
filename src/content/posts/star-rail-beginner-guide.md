@@ -7,7 +7,7 @@ gameSlug: "star-rail"
 category: "Beginners Guide"
 difficulty: "Beginner"
 tags: ["star-rail", "beginner", "tips", "team-building"]
-image: "/images/star-rail-beginner.jpg"
+image: "/images/star-rail-beginner.svg"
 author: "GameGuide Pro"
 readTime: 8
 featured: false

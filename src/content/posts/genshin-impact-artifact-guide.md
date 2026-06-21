@@ -7,7 +7,7 @@ gameSlug: "genshin-impact"
 category: "Build Guide"
 difficulty: "Intermediate"
 tags: ["genshin-impact", "artifacts", "farming", "optimization"]
-image: "/images/genshin-impact-artifacts.jpg"
+image: "/images/genshin-impact-artifacts.svg"
 author: "GameGuide Pro"
 readTime: 10
 featured: false

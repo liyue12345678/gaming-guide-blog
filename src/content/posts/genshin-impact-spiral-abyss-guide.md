@@ -7,7 +7,7 @@ gameSlug: "genshin-impact"
 category: "Walkthrough"
 difficulty: "Advanced"
 tags: ["genshin-impact", "spiral-abyss", "endgame", "teams"]
-image: "/images/genshin-impact-abyss.jpg"
+image: "/images/genshin-impact-abyss.svg"
 author: "GameGuide Pro"
 readTime: 10
 featured: false
