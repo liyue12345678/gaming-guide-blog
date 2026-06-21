@@ -1,6 +1,6 @@
 ---
 title: "Genshin Impact Artifact Guide — How to Farm, Roll, and Optimize Like a Pro"
-description: "Stop wasting resin on bad artifacts. Learn the optimal farming strategy, which stats to prioritize, when to stop rolling, and how to build every character efficiently."
+description: "Stop wasting resin on bad artifacts. Learn optimal farming strategy, which stats to prioritize, when to stop rolling, and how to build characters efficiently."
 pubDate: 2026-06-20
 game: "Genshin Impact"
 gameSlug: "genshin-impact"
