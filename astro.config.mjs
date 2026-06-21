@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://your-game-guide.com',
+  site: 'https://gleeful-arithmetic-abb122.netlify.app',
   integrations: [
     tailwind(),
   ],
